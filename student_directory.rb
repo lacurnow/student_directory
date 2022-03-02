@@ -1,34 +1,30 @@
-#Puts student data into an array.
-students = [
-  {name: "Dr. Hannibal Lecter", cohort: :november},
-  {name: "Darth Vader", cohort: :november},
-  {name: "Nurse Ratched", cohort: :november},
-  {name: "Michael Corleone", cohort: :november},
-  {name: "Alex DeLarge", cohort: :november},
-  {name: "The Wicked Witch of the West", cohort: :november},
-  {name: "Terminator", cohort: :november},
-  {name: "Freddy Krueger", cohort: :november},
-  {name: "The Joker", cohort: :november},
-  {name: "Joffrey Baratheon", cohort: :november},
-  {name: "Norman Bates", cohort: :november}
-]
-#Print student array
-def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+#Method for getting student names as user input
+def student_input
+  puts "Please enter the name of the students, one at a time"
+  puts "To finish, hit return twice"
+  students = []
+  name_input = gets.chomp
+  while !name_input.empty?
+    students.push(name: name_input, cohort: :november)
+    puts "Now we have #{students.count} students"
+    name_input = gets.chomp
+  end
+  return students 
 end
 
-def print(students)
+#Print student array
+def print_header(students)
+  puts "The students of Villains Academy"
+  puts "-------------"
   students.each { |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  puts "#{student[:name]} (#{student[:cohort]})" 
   }
 end
 
-#Print total number of students
-def print_footer(students)
+def student_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
 
-print_header
-print(students)
-print_footer(students)
+students = student_input
+print_header(students)
+student_footer(students)
