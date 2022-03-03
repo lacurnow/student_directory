@@ -1,3 +1,5 @@
+@students =[]
+
 #Interactive menu
 def print_menu
   puts "Select an option:"
@@ -6,54 +8,59 @@ def print_menu
   puts "9. Exit"
 end
 
-def print_students(students)
-  print_header(students)
-  student_footer(students)
+def show_student_list
+  print_header
+  student_footer
+end
+
+def user_response(selection)
+  case selection
+  when "1"
+    student_input
+  when "2"
+    show_student_list
+  when "9"
+    exit
+  else
+    "Invalid. Please try again."
+  end
 end
 
 def interactive_menu
-  students =[]
   loop do
     print_menu
-    user_choice = gets.chomp
-    case user_choice
-    when "1"
-      students = student_input(students)
-    when "2"
-      print_students(students)
-    when "9"
-      exit
-    else
-      "Invalid. Please try again."
-    end
+    user_response(gets.chomp)
   end
 end
 
 #Method for getting student names as user input
-def student_input(students)
+def student_input
   puts "Please enter the name of the students, one at a time"
   puts "To finish, hit return twice"
   name_input = gets.chomp
   while !name_input.empty?
-    students.push(name: name_input, cohort: :november)
-    puts "Now we have #{students.count} students"
+    @students.push(name: name_input, cohort: :november)
+    puts "Now we have #{@students.count} students"
     name_input = gets.chomp
   end
-  return students 
 end
 
 #Print student array
-def print_header(students)
+def print_header
   puts "The students of Villains Academy"
   puts "-------------"
-  students.each_with_index { |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]})"
-  }
+  if @students == []
+    puts "Student list empty."
+  else
+    @students.each_with_index { |student, index|
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]})"
+    }
+  end
 end
 
-def name_beginning_with(students, letter)
+def name_beginning_with(letter)
   names_with_initial = []
-  students.each { |student| 
+  @students.each { |student| 
   if student[:name][0].upcase == letter.upcase
     names_with_initial.push(student[:name])
   end
@@ -66,8 +73,14 @@ These are: "
   }
 end
 
-def student_footer(students)
-  puts "Overall, we have #{students.count} great students"
+def student_footer
+  if @students == []
+    nil
+  elsif @students.count == 1
+    puts "We have one great student"
+  else
+    puts "Overall, we have #{@students.count} great students"
+  end
 end
 
 
