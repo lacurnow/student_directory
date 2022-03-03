@@ -5,6 +5,7 @@ def print_menu
   puts "Select an option:"
   puts "1. Input students"
   puts "2. Show the students"
+  puts "3. Save student data"
   puts "9. Exit"
 end
 
@@ -19,11 +20,22 @@ def user_response(selection)
     student_input
   when "2"
     show_student_list
+  when "3"
+    save_students
   when "9"
     exit
   else
     "Invalid. Please try again."
   end
+end
+
+def save_students
+  file = File.open("student_data.csv", "a")
+  @students.each { |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  } 
 end
 
 def interactive_menu
@@ -61,9 +73,9 @@ end
 def name_beginning_with(letter)
   names_with_initial = []
   @students.each { |student| 
-  if student[:name][0].upcase == letter.upcase
-    names_with_initial.push(student[:name])
-  end
+    if student[:name][0].upcase == letter.upcase
+      names_with_initial.push(student[:name])
+    end
   }
   puts "There are #{names_with_initial.count} 
 students with a name beginning with #{letter.upcase}. 
