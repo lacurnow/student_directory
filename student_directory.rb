@@ -7,6 +7,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save student data"
   puts "4. Load student data"
+  puts "5. Get students with name beginning with letter ?"
   puts "9. Exit"
 end
 
@@ -25,6 +26,8 @@ def user_response(selection)
     save_students
   when "4"
     load_students
+  when "5"
+    name_beginning_with
   when "9"
     exit
   else
@@ -82,18 +85,19 @@ def print_header
   end
 end
 
-def name_beginning_with(letter)
+def name_beginning_with
+  print "Please enter the letter you wish to search by: "
+  letter = gets.chomp
   names_with_initial = []
   @students.each { |student| 
     if student[:name][0].upcase == letter.upcase
-      names_with_initial.push(student[:name])
+      names_with_initial.push(student)
     end
   }
-  puts "There are #{names_with_initial.count} 
-students with a name beginning with #{letter.upcase}. 
+  puts "There are #{names_with_initial.count} students with a name beginning with #{letter.upcase}. 
 These are: "
-  names_with_initial.each { |name|
-    puts name
+  names_with_initial.each { |student|
+    puts"#{student[:name]} (#{student[:cohort]})"
   }
 end
 
@@ -109,4 +113,3 @@ end
 
 
 interactive_menu
-#name_beginning_with(students, "S")
